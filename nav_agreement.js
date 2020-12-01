@@ -57,14 +57,48 @@ Navicon.nav_building_ribbon = (function()
 
     var addFilter = function () 
     {
-        //var filterAttribute = Xrm.Page.getAttribute("nav_autoid").getAttribute("nav_nav_credit_nav_auto").getValue();
+        var filterAttribute = Xrm.Page.getAttribute("nav_autoid").getValue();
+
+        var fetchXml = [
+    "<fetch>",
+    "  <entity name='nav_credit'>",
+    "   <all-attributes />",
+    "    <link-entity name='nav_nav_credit_nav_auto' from='nav_creditid' to='nav_creditid' intersect='true'>",
+    "      <link-entity name='nav_auto' from='nav_autoid' to='nav_autoid' intersect='true'>",
+    "        <filter>",
+    "          <condition attribute='nav_autoid' operator='eq' value='", filterAttribute[0].id, "'/>",
+    "        </filter>",
+    "      </link-entity>",
+    "    </link-entity>",
+    "  </entity>",
+    "</fetch>",
+        ].join("");
+
+        var layoutXml = "<grid name='resultset' jump='nav_name' select='1' icon='1' preview='1'>"
+
+                         + "<row name='result' id='nav_creditid'>"
+
+                           + "<cell name='nav_name' width='300' />"
+
+                           + "<cell name='createdon' width='125' />"
+
+                         + "</row>"
+
+                       + "</grid>";
+
+        var viewName = "Available Text Modules for this Entity";
+
+        var viewId = "{" + "34A611CD-8503-4DE0-8EB7-B16EEAB32EBF" + "}";
+
+        Xrm.Page.getControl("nav_creditid").addCustomView(viewId, "nav_credit", viewName, fetchXml, layoutXml, true);
+        
         //create a filter xml
-        var filter = "<filter type='and'>" +
-                    "<condition attribute='nav_bank' operator='eq' value='" + "Нет" + "'/>" +
-                    "</filter>";
+        //var filter = "<filter type='and'>" +
+        //            "<condition attribute='nav_bank' operator='eq' value='" + "Нет" + "'/>" +
+        //            "</filter>";
 
         //add filter
-        Xrm.Page.getControl("nav_creditid").addCustomFilter(filter);
+        //Xrm.Page.getControl("nav_creditid").addCustomFilter(filter);
     }
 
     var checkNameValue = function (context) 
