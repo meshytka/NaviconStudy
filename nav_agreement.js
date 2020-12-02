@@ -2,19 +2,53 @@ var Navicon = Navicon || {};
 
 Navicon.nav_building_ribbon = (function()
 {
+    var autoOnChange = function (context)
+    {
+        creditProgramVisibleCheck(context);
+        setSumma();
+    }
+
+    var setSumma = function ()
+    {
+        let autosArray = Xrm.Page.getAttribute("nav_autoid").getValue();
+
+        let summaAttr = Xrm.Page.getAttribute("nav_summa");
+
+        if (autosArray != null)
+        {
+            autoRef = autosArray[0];
+
+            var prom = Xrm.WebApi.retrieveRecord("nav_auto", autoRef.id, "?$select=nav_used,nav_amount&$expand=nav_modelid($select=nav_recommendedamount)");
+            prom.then(
+                function(result)
+                {
+                    if (result.nav_used == true)
+                    {
+                        summaAttr.setValue(result.nav_amount);
+                    }
+                    else
+                    {
+                        summaAttr.setValue(result.nav_modelid.nav_recommendedamount);
+                    }
+                },
+                function(error)
+                {
+                    console.error(error.message);
+                }
+            );
+        }
+        else
+        {
+            summaAttr.setValue(null);
+        }
+    }
+
     var creditProgramVisibleCheck = function (context)
     {
         let formContext = context.getFormContext();
 
         let autoidAttr = formContext.getAttribute("nav_autoid");
         let contactAttr = formContext.getAttribute("nav_contact");
-
-        var lookup = new Array();
-        lookup = formContext.getAttribute("nav_autoid").getValue();
-        if (lookup != null)
-        {
-            console.log(lookup[0].valueOf("id"));
-        }
 
         // есть авто или контакт не выбраны
         if (autoidAttr.getValue() == null || contactAttr.getValue() == null)
@@ -91,14 +125,6 @@ Navicon.nav_building_ribbon = (function()
         var viewId = "{" + "34A611CD-8503-4DE0-8EB7-B16EEAB32EBF" + "}";
 
         Xrm.Page.getControl("nav_creditid").addCustomView(viewId, "nav_credit", viewName, fetchXml, layoutXml, true);
-        
-        //create a filter xml
-        //var filter = "<filter type='and'>" +
-        //            "<condition attribute='nav_bank' operator='eq' value='" + "Нет" + "'/>" +
-        //            "</filter>";
-
-        //add filter
-        //Xrm.Page.getControl("nav_creditid").addCustomFilter(filter);
     }
 
     var checkNameValue = function (context) 
@@ -113,6 +139,87 @@ Navicon.nav_building_ribbon = (function()
 
             let newNameValue = nameValue.replace(regexp,"");
             nameAttr.setValue(newNameValue);
+        }
+    }
+
+    var creditOnChange = function (context)
+    {
+        creditTabVisibleCheck(context);
+        checkProgramEndDate();
+        setCreditPeriodFromCreditProgram();
+    }
+
+    var dateOnChange = function ()
+    {
+        checkProgramEndDate();
+    }
+
+    var checkProgramEndDate = function ()
+    {
+        let creditProgramsArray = Xrm.Page.getAttribute("nav_creditid").getValue();
+
+        if (creditProgramsArray != null)
+        {
+            creditProgramRef = creditProgramsArray[0];
+
+            var prom = Xrm.WebApi.retrieveRecord("nav_credit", creditProgramRef.id, "?$select=nav_dateend");
+            prom.then(
+                function(result)
+                {
+                    var creditProgramDateEnd = result.nav_dateend;
+                    checkDatesOfAgreement(creditProgramDateEnd);
+                },
+                function(error)
+                {
+                    console.error(error.message);
+                }
+            );
+        }
+    }
+
+    var checkDatesOfAgreement = function (creditProgramDateEnd)
+    {
+        let creditProgramsArray = Xrm.Page.getAttribute("nav_creditid").getValue();
+        let creditProgramsСontrol = Xrm.Page.getControl("nav_creditid");
+
+        let dateAgreementValue = Xrm.Page.getAttribute("nav_date").getValue();
+        
+
+        if (creditProgramsArray != null && dateAgreementValue != null)
+        {
+            if (Date.parse(creditProgramDateEnd) < Date.parse(dateAgreementValue))
+            {
+                creditProgramsСontrol.setNotification("Срок кредитной программы истекает на момент даты начала договора", "agreementBadDate");
+            }
+            else
+            {
+                creditProgramsСontrol.clearNotification("agreementBadDate"); 
+            }
+        }
+    }
+
+    var setCreditPeriodFromCreditProgram = function ()
+    {
+        let creditProgramsArray = Xrm.Page.getAttribute("nav_creditid").getValue();
+
+        if (creditProgramsArray != null)
+        {
+            creditProgramRef = creditProgramsArray[0];
+
+            var prom = Xrm.WebApi.retrieveRecord("nav_credit", creditProgramRef.id, "?$select=nav_creditperiod");
+            prom.then(
+                function(result)
+                {
+                    var creditProgramPeriod = result.nav_creditperiod;
+                    
+                    let creditPeriod = Xrm.Page.getAttribute("nav_creditperiod");
+                    creditPeriod.setValue(creditProgramPeriod);
+                },
+                function(error)
+                {
+                    console.error(error.message);
+                }
+            );
         }
     }
 
@@ -136,13 +243,13 @@ Navicon.nav_building_ribbon = (function()
 
             // берем авто
             let autoidAttr = formContext.getAttribute("nav_autoid");
-            // подписываем на проверку видимости кредитной программы
-            autoidAttr.addOnChange( creditProgramVisibleCheck );
+            // 
+            autoidAttr.addOnChange( autoOnChange );
 
             // берем сумму
             let summaControl = formContext.getControl("nav_summa");
-            // скрываем
-            summaControl.setVisible(false);
+            // 
+            //summaControl.setDisabled(false);
 
             // берем оплачен
             let factControl = formContext.getControl("nav_fact");
@@ -151,11 +258,13 @@ Navicon.nav_building_ribbon = (function()
 
             // берем Кредитную программу
             let creditProgramAttr = formContext.getAttribute("nav_creditid");
-            // Завязываем на него видимость вкладки "Кредит"
-            creditProgramAttr.addOnChange( creditTabVisibleCheck );
+            // 
+            creditProgramAttr.addOnChange( creditOnChange );
             // Проверяем видимость
             creditProgramVisibleCheck(context);
 
+            let dateAttr = formContext.getAttribute("nav_date");
+            dateAttr.addOnChange( dateOnChange );
             // берем Владельца
             let ownerControl = formContext.getControl("ownerid");
             // скрываем
