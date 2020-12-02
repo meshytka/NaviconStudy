@@ -1,6 +1,6 @@
 var Navicon = Navicon || {};
 
-Navicon.nav_building_ribbon = (function()
+Navicon.nav_agreement = (function()
 {
     var autoOnChange = function (context)
     {

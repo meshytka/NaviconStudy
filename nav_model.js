@@ -1,6 +1,6 @@
 var Navicon = Navicon || {};
 
-Navicon.nav_model_ribbon = (function()
+Navicon.nav_model = (function()
 {
     return {
 

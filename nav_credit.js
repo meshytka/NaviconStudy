@@ -1,6 +1,6 @@
 var Navicon = Navicon || {};
 
-Navicon.nav_credit_ribbon = (function()
+Navicon.nav_credit = (function()
 {
     var dateAttributesCheck = function (context)
     {

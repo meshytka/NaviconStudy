@@ -1,6 +1,6 @@
 var Navicon = Navicon || {};
 
-Navicon.nav_communication_ribbon = (function()
+Navicon.nav_communication = (function()
 {
     var fieldAttributesVisibleCheck = function (context)
     {

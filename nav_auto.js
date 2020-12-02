@@ -1,6 +1,6 @@
 var Navicon = Navicon || {};
 
-Navicon.nav_auto_ribbon = (function()
+Navicon.nav_auto = (function()
 {
     var usedAttributesVisibleCheck = function (context)
     {
