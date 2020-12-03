@@ -95,41 +95,53 @@ namespace CRM.ConsoleApp
             link.EntityAlias = "com";
             link.Columns = new ColumnSet(nav_communication.Fields.nav_phone, nav_communication.Fields.nav_email);
 
+            var linkFiler = query.Criteria.AddFilter(LogicalOperator.And);
+            linkFiler.AddCondition(Contact.Fields.Telephone1, ConditionOperator.NotEqual, nav_communication.Fields.nav_phone);
+            linkFiler.AddCondition(Contact.Fields.EMailAddress1, ConditionOperator.NotEqual, nav_communication.Fields.nav_email);
+
             var result = service.RetrieveMultiple(query);
+
+            var contact = result.Entities.Select(e => e.ToEntity<Contact>());
+
+            List<Guid> listOdId = new List<Guid>();
 
             foreach (var entity in result.Entities.Select(e => e.ToEntity<Contact>()))
             {
-                var commEmail = (string)entity.GetAttributeValue<AliasedValue>($"{link.EntityAlias}.{nav_communication.Fields.nav_email}")?.Value;
-                var commPhone = (string)entity.GetAttributeValue<AliasedValue>($"{link.EntityAlias}.{nav_communication.Fields.nav_phone}")?.Value;
+                if (listOdId.Any(id => id == entity.Id))
+                    continue;
 
                 if (entity.EMailAddress1 != null && entity.Telephone1 != null)
                 {
-
+                    service.Create(CreateCommunication(nav_communication_nav_type.Email, entity.EMailAddress1));
+                    service.Create(CreateCommunication(nav_communication_nav_type._, entity.Telephone1));
                 }
-                else if (entity.EMailAddress1 != null && entity.Telephone1 == null && commEmail != entity.EMailAddress1)
+                else if (entity.EMailAddress1 != null && entity.Telephone1 == null)
                 {
+                    service.Create(CreateCommunication(nav_communication_nav_type.Email, entity.EMailAddress1));
                 }
-                else if (entity.EMailAddress1 == null && entity.Telephone1 != null && commPhone != entity.Telephone1)
+                else if (entity.EMailAddress1 == null && entity.Telephone1 != null)
                 {
-
+                    service.Create(CreateCommunication(nav_communication_nav_type._, entity.Telephone1));
                 }
+
+                listOdId.Add(entity.Id);
             }
         }
 
-        private nav_communication CreateCommunication(nav_communication_nav_type type, bool main, string commValue)
+        private static nav_communication CreateCommunication(nav_communication_nav_type type, string commValue)
         {
             nav_communication communication = new nav_communication();
 
             if (type == nav_communication_nav_type.Email)
             {
                 communication.nav_email = commValue;
+                communication.nav_main = false;
             }
             else
             {
                 communication.nav_phone = commValue;
+                communication.nav_main = true;
             }
-
-            communication.nav_main = main;
 
             return communication;
         }
