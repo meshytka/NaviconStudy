@@ -101,21 +101,37 @@ namespace CRM.ConsoleApp
             {
                 var commEmail = (string)entity.GetAttributeValue<AliasedValue>($"{link.EntityAlias}.{nav_communication.Fields.nav_email}")?.Value;
                 var commPhone = (string)entity.GetAttributeValue<AliasedValue>($"{link.EntityAlias}.{nav_communication.Fields.nav_phone}")?.Value;
-                var email = entity.EMailAddress1;
-                var phone = entity.Telephone1;
-                var n = entity.ContactId;
+
                 if (entity.EMailAddress1 != null && entity.Telephone1 != null)
                 {
 
                 }
-                else if (entity.EMailAddress1 != null && entity.Telephone1 == null)
-                { 
+                else if (entity.EMailAddress1 != null && entity.Telephone1 == null && commEmail != entity.EMailAddress1)
+                {
                 }
-                else if (entity.EMailAddress1 == null && entity.Telephone1 != null)
+                else if (entity.EMailAddress1 == null && entity.Telephone1 != null && commPhone != entity.Telephone1)
                 {
 
                 }
             }
+        }
+
+        private nav_communication CreateCommunication(nav_communication_nav_type type, bool main, string commValue)
+        {
+            nav_communication communication = new nav_communication();
+
+            if (type == nav_communication_nav_type.Email)
+            {
+                communication.nav_email = commValue;
+            }
+            else
+            {
+                communication.nav_phone = commValue;
+            }
+
+            communication.nav_main = main;
+
+            return communication;
         }
     }
 }
