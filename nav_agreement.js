@@ -8,6 +8,23 @@ Navicon.nav_agreement = (function()
         setSumma();
     }
 
+    var nameOnChange = function (context)
+    {
+        checkNameValue (context);
+    }
+
+    var creditOnChange = function (context)
+    {
+        creditTabVisibleCheck(context);
+        checkProgramEndDate();
+        setCreditPeriodFromCreditProgram();
+    }
+
+    var dateOnChange = function ()
+    {
+        checkProgramEndDate();
+    }
+
     var setSumma = function ()
     {
         let autosArray = Xrm.Page.getAttribute("nav_autoid").getValue();
@@ -142,18 +159,6 @@ Navicon.nav_agreement = (function()
         }
     }
 
-    var creditOnChange = function (context)
-    {
-        creditTabVisibleCheck(context);
-        checkProgramEndDate();
-        setCreditPeriodFromCreditProgram();
-    }
-
-    var dateOnChange = function ()
-    {
-        checkProgramEndDate();
-    }
-
     var checkProgramEndDate = function ()
     {
         let creditProgramsArray = Xrm.Page.getAttribute("nav_creditid").getValue();
@@ -235,7 +240,7 @@ Navicon.nav_agreement = (function()
             creditTabVisibleCheck(context);
 
             let nameAttr = formContext.getAttribute("nav_name");
-            nameAttr.addOnChange( checkNameValue );
+            nameAttr.addOnChange( nameOnChange );
             // Берем контакт
             let contactAttr = formContext.getAttribute("nav_contact");
             // подписываем на проверку видимости кредитной программы

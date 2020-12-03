@@ -1,0 +1,9 @@
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\CRM.Plugins.dll
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\CRM.Plugins.pdb
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\obj\Debug\CRM.Plugins.csprojAssemblyReference.cache
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\obj\Debug\CRM.Plugins.csproj.CoreCompileInputs.cache
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\obj\Debug\CRM.Plugins.csproj.CopyComplete
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\obj\Debug\CRM.Plugins.dll
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\obj\Debug\CRM.Plugins.pdb
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\CRM.Common.dll
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\CRM.Common.pdb
