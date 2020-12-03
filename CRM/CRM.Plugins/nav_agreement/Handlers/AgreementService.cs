@@ -1,4 +1,5 @@
 ﻿using CRM.Common.Entities;
+using CRM.Plugins.Contact.Handlers;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using System;
@@ -23,11 +24,19 @@ namespace CRM.Plugins.nav_agreement.Handlers
 
         public void SetContractDate(Entity targetAgreement)
         {
-            if (targetAgreement.Attributes.Contains("nav_date"))
+            if (targetAgreement.Attributes.Contains("nav_contact") && targetAgreement.Attributes.Contains("nav_date"))
             {
                 var date = targetAgreement.GetAttributeValue<DateTime>("nav_date");
 
-                
+                var serviceContact = new ContactService(_service, _tracingService);
+                var contactLink = targetAgreement.GetAttributeValue<LinkEntity>("nav_contact");
+
+                bool isAgreementFrst = serviceContact.IsAnyAgreement(contactLink);
+
+                if (isAgreementFrst)
+                {
+                    serviceContact.SetDateOfFrstAgreement(contactLink, date);
+                }
             }
         }
     }
