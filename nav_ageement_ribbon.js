@@ -58,7 +58,7 @@ Navicon.nav_agreement_ribbon = (function()
 
     return {
 
-        RecalculateCredit : function(context)
+        RecalculateCredit : function()
         {
             recalculateCreditamount();
         }
