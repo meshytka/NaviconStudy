@@ -1,0 +1,9 @@
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Workflows\bin\Debug\CRM.Workflows.dll
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Workflows\bin\Debug\CRM.Workflows.pdb
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Workflows\obj\Debug\CRM.Workflows.csproj.CoreCompileInputs.cache
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Workflows\obj\Debug\CRM.Workflows.dll
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Workflows\obj\Debug\CRM.Workflows.pdb
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Workflows\obj\Debug\CRM.Workflows.csproj.CopyComplete
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Workflows\bin\Debug\CRM.Common.dll
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Workflows\bin\Debug\CRM.Common.pdb
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Workflows\obj\Debug\CRM.Workflows.csprojAssemblyReference.cache

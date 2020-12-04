@@ -7,3 +7,16 @@ C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\obj\Debug\CRM.
 C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\obj\Debug\CRM.Plugins.pdb
 C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\CRM.Common.dll
 C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\CRM.Common.pdb
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\Microsoft.IdentityModel.Clients.ActiveDirectory.dll
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\Microsoft.Rest.ClientRuntime.dll
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\Microsoft.Xrm.Sdk.Deployment.dll
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\Microsoft.Xrm.Sdk.Workflow.dll
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\Microsoft.Xrm.Tooling.Connector.dll
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\Microsoft.IdentityModel.Clients.ActiveDirectory.xml
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.xml
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\Microsoft.Xrm.Sdk.Deployment.xml
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\Microsoft.Xrm.Sdk.Workflow.xml
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\Microsoft.Xrm.Tooling.Connector.xml
+C:\Users\Mikhail\Documents\work\work\NaviconStudy\CRM\CRM.Plugins\bin\Debug\Newtonsoft.Json.xml
