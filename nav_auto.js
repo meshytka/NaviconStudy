@@ -2,6 +2,11 @@ var Navicon = Navicon || {};
 
 Navicon.nav_auto = (function()
 {
+    var usedOnChange = function (context)
+    {
+        usedAttributesVisibleCheck(context);
+    }
+
     var usedAttributesVisibleCheck = function (context)
     {
         let formContext = context.getFormContext();
@@ -34,8 +39,8 @@ Navicon.nav_auto = (function()
 
             // Берем Поле с пробегом
             let usedAttr = formContext.getAttribute("nav_used");
-            // подписываем проверку видимости кредитной программы
-            usedAttr.addOnChange( UsedAttributesVisibleCheck );
+            // подписываем изменение на событие
+            usedAttr.addOnChange( usedOnChange );
 
             // Сразу проверяем видимость полей
             usedAttributesVisibleCheck(context);

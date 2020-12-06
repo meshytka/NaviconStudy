@@ -1,11 +1,6 @@
-﻿using CRM.Common.Entities;
-using CRM.Plugins.nav_agreement.Handlers;
+﻿using CRM.Plugins.nav_agreement.Handlers;
 using Microsoft.Xrm.Sdk;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CRM.Plugins.nav_agreement
 {

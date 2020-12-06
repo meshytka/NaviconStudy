@@ -1,12 +1,5 @@
-﻿using CRM.Common.Entities;
-using CRM.Workflows.nav_invoice.Handlers;
-using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
+﻿using Microsoft.Xrm.Sdk;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CRM.Workflows.nav_agreement.Handlers
 {
@@ -38,17 +31,14 @@ namespace CRM.Workflows.nav_agreement.Handlers
 
         public void DeleteAllArgementInvoiceWhithTypeEqAuthomatic(Guid id)
         {
-
         }
 
         public void CreatePaymentScheduleForEachMonth()
         {
-
         }
 
         public void SetPaymentPlanDate()
         {
-
         }
     }
 }

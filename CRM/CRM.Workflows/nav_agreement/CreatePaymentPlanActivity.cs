@@ -1,12 +1,7 @@
 ﻿using CRM.Workflows.nav_agreement.Handlers;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Workflow;
-using System;
 using System.Activities;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CRM.Workflows.nav_agreement
 {

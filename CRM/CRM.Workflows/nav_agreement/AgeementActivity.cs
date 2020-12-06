@@ -1,14 +1,7 @@
-﻿using CRM.Common.Entities;
-using CRM.Workflows.nav_agreement.Handlers;
+﻿using CRM.Workflows.nav_agreement.Handlers;
 using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Sdk.Workflow;
-using System;
 using System.Activities;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CRM.Workflows.nav_agreement
 {
@@ -30,7 +23,7 @@ namespace CRM.Workflows.nav_agreement
             var id = wfContext.PrimaryEntityId;
 
             var servicefactory = context.GetExtension<IOrganizationServiceFactory>();
-            
+
             var service = servicefactory.CreateOrganizationService(null);
 
             AgreementService agreementService = new AgreementService(service);

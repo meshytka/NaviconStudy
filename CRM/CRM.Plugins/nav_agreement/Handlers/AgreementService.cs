@@ -1,13 +1,7 @@
-﻿using CRM.Common.Entities;
-using CRM.Plugins.Contact.Handlers;
+﻿using CRM.Plugins.Contact.Handlers;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CRM.Plugins.nav_agreement.Handlers
 {
