@@ -1,4 +1,5 @@
 ﻿using CRM.Common.Entities;
+using CRM.Plugins.nav_agreement.Handlers;
 using Microsoft.Xrm.Sdk;
 using System;
 
@@ -19,8 +20,23 @@ namespace CRM.Plugins.nav_invoice.Handlers
         {
             if (!targetInvoice.Attributes.Contains("nav_type"))
             {
-                targetInvoice.Attributes.Add("nav_type", new OptionSetValue((int)nav_invoice_nav_type.__808630000));
                 _tracingService.Trace("Set nav_type value");
+                targetInvoice.Attributes.Add("nav_type", new OptionSetValue((int)nav_invoice_nav_type.__808630000));
+            }
+        }
+
+        public void PostInvoiceRecalculating(Entity targetInvoice)
+        {
+            var fact = targetInvoice.GetAttributeValue<bool?>(Common.Entities.nav_invoice.Fields.nav_fact);
+
+            if (fact == true)
+            {
+                var agreementService = new AgreementService(_service, _tracingService);
+
+                _tracingService.Trace("Set nav_type value");
+                agreementService.RecalculateFactSummaAfterPayingInvoice(targetInvoice);
+
+                _service.Delete(targetInvoice.LogicalName, targetInvoice.Id);
             }
         }
     }

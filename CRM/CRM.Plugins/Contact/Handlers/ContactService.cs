@@ -8,54 +8,48 @@ using System.Text;
 
 namespace CRM.Plugins.Contact.Handlers
 {
-    public class ContactService
+    public class ContactService : BaseService
     {
-        private readonly IOrganizationService _service;
-        private readonly ITracingService _tracingService;
-
         public ContactService(IOrganizationService service, ITracingService tracingService)
+            : base(service, tracingService)
         {
-            _service = service ?? throw new ArgumentNullException(nameof(service));
-            _tracingService = tracingService ?? throw new ArgumentNullException(nameof(tracingService));
         }
 
-        public bool IsAnyAgreement(LinkEntity entity)
+        public bool IsFirstAgreement(Guid contactId, Guid agreementId)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-            System.Console.OutputEncoding = Encoding.UTF8;
-
-            var connectionString = "AuthType=OAuth; Url=https://mikhailmaslov.crm4.dynamics.com/; Username=me_shytka@mikhailmaslov.onmicrosoft.com; Password=Zhjckfd02; RequireNewInstance=true; AppId=51f81489-12ee-4a9e-aaae-a2591f45987d; RedirectUri=app://58145B91-0C36-4500-8554-080854F2AC97";
-
-            CrmServiceClient client = new CrmServiceClient(connectionString);
-            if (client.LastCrmException != null)
-            {
-                System.Console.WriteLine(client.LastCrmException);
-            }
-
-            var service = (IOrganizationService)client;
-
-            QueryExpression query = new QueryExpression(nav_communication.EntityLogicalName);
-            query.ColumnSet = new ColumnSet(
-                nav_communication.Fields.nav_type,
-                nav_communication.Fields.nav_phone,
-                nav_communication.Fields.nav_email,
-                nav_communication.Fields.nav_contactid);
+            QueryExpression query = new QueryExpression(Common.Entities.nav_agreement.EntityLogicalName);
+            query.ColumnSet = new ColumnSet(Common.Entities.nav_agreement.Fields.Id);
 
             query.NoLock = true;
-            //query.TopCount = 20;
-            query.Criteria.AddCondition(nav_communication.Fields.nav_main, ConditionOperator.Equal, true);
 
-            var link = query.AddLink(Common.Entities.Contact.EntityLogicalName, nav_communication.Fields.nav_contactid, Common.Entities.Contact.Fields.ContactId);
+            var link = query.AddLink(Common.Entities.Contact.EntityLogicalName, Common.Entities.nav_agreement.Fields.nav_contact, Common.Entities.Contact.Fields.Id);
             link.EntityAlias = "co";
-            link.Columns = new ColumnSet(Common.Entities.Contact.Fields.Telephone1, Common.Entities.Contact.Fields.EMailAddress1, Common.Entities.Contact.Fields.ContactId);
 
-            var result = service.RetrieveMultiple(query);
+            query.Criteria.AddCondition(Common.Entities.Contact.Fields.Id, ConditionOperator.Equal, contactId);
+            query.Criteria.AddCondition(Common.Entities.nav_agreement.Fields.Id, ConditionOperator.NotEqual, agreementId);
 
-            return true;
+
+            var result = _service.RetrieveMultiple(query);
+
+            if (result.TotalRecordCount == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public void SetDateOfFrstAgreement(LinkEntity entity, DateTime date)
-        { }
+        public void SetDateOfFrstAgreement(Guid contactId, DateTime? date)
+        {
+            Common.Entities.Contact contact = new Common.Entities.Contact()
+            {
+                Id = contactId,
+                nav_date = date
+            };
+
+            _service.Update(contact);
+        }
     }
 }
