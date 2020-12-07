@@ -35,19 +35,30 @@ namespace CRM.Plugins.nav_agreement.Handlers
         public void RecalculateFactSummaAfterPayingInvoice(Entity newInvoice)
         {
             var invoice = newInvoice.ToEntity<Common.Entities.nav_invoice>();
-            var ageementId = (Guid) invoice.GetAttributeValue<AliasedValue>($"{Common.Entities.nav_agreement.EntityLogicalName}.{Common.Entities.nav_agreement.Fields.Id}")?.Value;
+            var agreementId = (Guid)invoice.GetAttributeValue<AliasedValue>($"{Common.Entities.nav_agreement.EntityLogicalName}.{Common.Entities.nav_agreement.Fields.Id}")?.Value;
 
             if (invoice.nav_amount.Value != 0)
             {
-                QueryExpression query = new QueryExpression(Common.Entities.nav_agreement.EntityLogicalName);
-                query.ColumnSet = new ColumnSet(Common.Entities.nav_agreement.Fields.Id, Common.Entities.nav_agreement.Fields.nav_factsumma, Common.Entities.nav_agreement.Fields.nav_fact);
+                var columnASet = new ColumnSet(
+                    Common.Entities.nav_agreement.Fields.Id, 
+                    Common.Entities.nav_agreement.Fields.nav_factsumma, 
+                    Common.Entities.nav_agreement.Fields.nav_fact,
+                    Common.Entities.nav_agreement.Fields.nav_fullcreditamount
+                    );
 
-                query.NoLock = true;
+                var agreement = (Common.Entities.nav_agreement)_service.Retrieve(Common.Entities.nav_agreement.EntityLogicalName, agreementId, columnASet);
 
-                var link = query.AddLink(Common.Entities.nav_agreement.EntityLogicalName, Common.Entities.Contact.Fields.Id, Common.Entities.nav_agreement.Fields.nav_contact);
-                link.EntityAlias = "co";
+                if (agreement != null)
+                {
+                    agreement.nav_factsumma.Value += invoice.nav_amount.Value;
 
-                var result = _service.RetrieveMultiple(query);
+                    if (agreement.nav_factsumma.Value >= agreement.nav_fullcreditamount.Value)
+                    {
+                        agreement.nav_fact = true;
+                    }
+
+                    _service.Update(agreement);
+                }
             }
         }
     }
